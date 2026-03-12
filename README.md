@@ -52,7 +52,7 @@ The database created for the project: beauty_spot_DW
 
 Schemas used: bronze, silver and gold
 
-click to view script
+(click to view script)
 
 Each layer serves a different purpose:
 -  Bronze	Stores the raw data
@@ -110,7 +110,7 @@ For matched records, product names from the inventory dataset were used. For unm
 The Gold Layer contains business ready viiews designed for analysis and reporting. This views apply business logic and prepare the data for use in SQL analysis and Power BI dashboards.
 
 **Sales Report View**
-A primary analytical view called "gold.beautyspot_sales_report was created in this layer. This view pulls the cleaned sales data from the silver layer and introduces a product category column to it which serves as the main dataset used for reporting and analysis.
+A primary analytical view called "gold.beautyspot_sales_report" was created in this layer. This view pulls the cleaned sales data from the silver layer and introduces a product category column to it which serves as the main dataset used for reporting and analysis.
 
 It includes fields such as:
 -  part_no
@@ -142,7 +142,7 @@ click to view script
 ## Analysis
 
 ### Category Performance Analysis
-Using the gold.beautyspot_sales_report view, a category-level analysis was performed to evaluate the contribution of each product category.
+Using the "gold.beautyspot_sales_report" view, a category-level analysis was performed to evaluate the contribution of each product category.
 The analysis calculated:
 Number of products per category
 Total quantity sold
@@ -165,7 +165,7 @@ This approach ensures that higher performing categories receive a proportionally
 
 ## Power BI Dashboard
 
-A Power BI dashboard was built on top of the Gold layer view gold.beautyspot_sales_report to visualize key business metrics.
+A Power BI dashboard was built on top of the Gold layer view "gold.beautyspot_sales_report" to visualize key business metrics.
 
 **Key Performance Indicators:**
 -  Unique Products
