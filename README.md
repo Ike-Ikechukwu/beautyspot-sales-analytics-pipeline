@@ -2,55 +2,31 @@
 
 
 ## Overview
-This project focuses on transforming raw retail sales reports and inventory product data into a structured analytics workflow using SQL Server and Power BI.
+This project transforms raw retail sales and inventory data into a structured format to support business analysis and reporting. It uses a layered data warehouse architecture and prepares datasets for visualization and decision-making with Power BI.
 
-The goal was to take unstructured monthly reports, clean and standardize the data, organize it within a layered data warehouse, and then build a dashboard that provides clear insight into product and category performance.
+## Business Problem
+The Beauty Spot section at XYZ Ultra Mart recently expanded its product offerings and requested an increase in procurement budget to ₦30,000,000. Management needed a data-driven approach to allocate the new budget across product categories based on historical sales performance.
 
-The final output includes:
-
+## Project Objectives
 -  A Bronze–Silver–Gold data warehouse built in SQL Server
 -  Product categorization using SQL
 -  Category performance and revenue contribution analysis
+-  Allocate the ₦30 million procurement budget proportionally based on category performance
 -  A Power BI dashboard for business reporting
 
 ## Tools Used
 -  Excel Power Query: Extract and prepare data from PDF reports
 -  SQL Server: Data storage, transformation, and analysis
 -  Power BI: Data visualization and reporting
--  GitHub: Project documentation and version control
 
 ## Data Sources
 Two datasets were used for this project.
 
 1. **Monthly Sales Reports**
-
-The sales reports were provided as five monthly PDF files.
-
-Each report contained the following columns:
-
--  Group(product description)
--  Quantity
--  Discount N
--  %
--  Sales N
--  %
--  Cost N
--  Profit N
--  %
-
-**Note:** The Product Description column(Group) contained both the part number and product name, which required additional transformation.
+Five monthly PDF reports containing sales data with columns such as product description, quantity, discount, %, sales, cost, and profit. The product description column included both the part number and product name, which required splitting and cleaning for analysis.
 
 2. **Inventory Product Dataset**
-
-The inventory dataset contained product reference information.
-
-Columns included:
--  internal
--  part_no
--  details (product name)
--  category
-
-This dataset was used to help identify products and support the categorization process.
+A CSV file containing product reference information (internal, part_no and details). This dataset provided more complete product descriptions than the sales reports, making it easier to identify keywords used to categorize products accurately.
 
 ## Data Preparation
 
@@ -59,7 +35,6 @@ Since the sales reports were provided in PDF format, the first step involved ext
 Each monthly report was imported and transformed using the same process.
 
 **Transformations performed**:
-
 -  Removed unnecessary columns such as discount and percentage fields
 -  Split the Product Description column into: part_no and product_name
 -  Added a sales_date column to identify the reporting month
@@ -80,8 +55,7 @@ Schemas used: bronze, silver and gold
 click to view script
 
 Each layer serves a different purpose:
-
--  Bronze	Store raw data
+-  Bronze	Stores the raw data
 -  Silver	Clean and standardize data
 -  Gold	Create analytical views for reporting
 
@@ -100,75 +74,64 @@ The goal was simply to preserve the original data for reference and traceability
 
 ### Silver Layer: Data Cleaning and Structuring
 
-The silver layer is were the data was cleaned and standardized
+The silver layer contains a clean and standardized data used for further analysis.
 
-**Creating The Silver Tables** 
 Two tables were created in this layer:
 
 -  silver.beautyspot_sales_sls
 -  silver.beautyspot_prd_details_inv
 
-click to view the script.
+(click to view script)
 
-Before moving data from bronze into the Silver layer, the tables structure were created and several quality checks were performed.
-**Data Quality Checks**
-The following data quality checks were performed:
+Before loading data from bronze into the Silver layer, several data quality checks were performed to ensure consistency and accuracy. This checks included:
 
--  Checking for duplicate part numbers
--  Identifying null values in text, numeric, and date columns
+-  Identrifying duplicate part numbers
+-  Checking for null values in text, numeric, and date columns
 -  Removing unwanted spaces in string fields
--  Verifying consistent formatting
+-  Verifying consistent formatting across the dataset
 
-click to view the script.
+(click to view the script).
 
 **Data Discrepancy Investigation**
 
-During validation, 15 part numbers from the sales dataset did not match records in the inventory dataset.
-
-After raising the issue with the inventory officer, it was confirmed that:
-
-Some products had previously shared the same part number and the part numbers had been manually updated internally
+During validation, 15 part numbers from the sales dataset did not match records in the inventory dataset. After discussing the issue with the inventory officer, it was confirmed that Some products had previously shared the same part number and were later updated internally
 
 The inventory officer provided complete product names for those records so they could still be categorized correctly
 
-click to view script
+(click to view script)
 
 **Data Insertion**
--  The inventory data was cleaned and inserted into the table "silver.beautyspot_prd_details_inv
--  The sales data was also cleaned and structured before being loaded into the table "silver.beautyspot_sales_sls.
-To enrich the sales data with  product information a LEFT JOIN was performed using the part number.
-For matched records product information from the product table were used while For unmatched records, the product names provided by the inventory officer were manually included.
-click to view scripts
+Once the data was cleaned, it was inserted into the Silver tables. Before loading the sales data, it was enriched with product information from the inventory dataset using a LEFT JOIN on part_no.
+For matched records, product names from the inventory dataset were used. For unmatched records, the product names provided by the inventory officer were manually included.
+
+(click to view script)
 
 ### Gold layer
 The Gold Layer contains business ready viiews designed for analysis and reporting. This views apply business logic and prepare the data for use in SQL analysis and Power BI dashboards.
 
-### Sales Analysis View & Product Categorization
-To support business analysis and reporting, a primary analytical view was created in the Gold layer known as "gold.beautyspot_sales_sls"
+**Sales Report View**
+A primary analytical view called "gold.beautyspot_sales_report was created in this layer. This view pulls the cleaned sales data from the silver layer and introduces a product category column to it which serves as the main dataset used for reporting and analysis.
 
-This view serves as the main reporting dataset and contains all fields required for analysis. It pulls the cleaned sales data from the Silver layer and introduces a product category column used for performance analysis.
+It includes fields such as:
+-  part_no
+-  product_name
+-  category
+-  quantity_sold
+-  cost_amount
+-  sales_amount
+-  profit_amount
+-  sales_date
+This view acts as the central dataset used for both SQL analysis and the Power BI dashboard.
 
-Product categorization was implemented directly within this view.
-The categorization process involved:
-1.  Extracting distinct product names from the dataset.
-2.  Identifying category groups used by the business.
-3.  Generating keyword mappings associated with each category.
-4.  implementing a SQL CASE statement to assign categories based on product name keywords.
+#### Product categorization 
+Product categorization was implemented directly within the sales report view. 
+The process involved: 
+1.  Identifying the business category groups
+2.  Extracting distinct product names for identification of common keywords associated with each category.
+3.  SQL CASE statement was then used to assign categories based on these keywords.
+This approach allows products to be automatically categorized during query execution, ensuring consistent classification across the dataset.
 
-This logic allows products to be automatically classified into categories during query execution.
-Example Structure of the View
-The view includes the following fields:
-part_no
-product_name
-category
-quantity_sold
-cost_amount
-sales_amount
-profit_amount
-sales_date
-This view acts as the central dataset used for both SQL analysis and the Power BI dashboard, ensuring that all reporting and visualizations are based on the same structured and categorized sales data.
-
-click to view script.
+(Click to view script)
 
 ### Monthly Sales Summary Validation
 
@@ -179,7 +142,7 @@ click to view script
 ## Analysis
 
 ### Category Performance Analysis
-Using the gold.beautyspot_sales_sls view, a category-level analysis was performed to evaluate the contribution of each product category.
+Using the gold.beautyspot_sales_report view, a category-level analysis was performed to evaluate the contribution of each product category.
 The analysis calculated:
 Number of products per category
 Total quantity sold
@@ -189,20 +152,20 @@ Total profit
 Revenue contribution percentage
 This analysis helps identify which product categories generate the most revenue and profit for the business.
 
-click to view script
+(click to view script)
 
 ### Budget Allocation Model
 A simple budget allocation model was developed based on category revenue contribution.
 The idea was to distribute a marketing or purchasing budget across product categories according to their revenue performance.
-Example formula:
+**formula used**:
 Revenue Allocation = New Budget × Revenue Contribution
-This approach ensures that higher-performing categories receive a proportionally larger share of the budget.
+This approach ensures that higher performing categories receive a proportionally larger share of the budget.
 
-click to view script.
+(click to view script).
 
 ## Power BI Dashboard
 
-A Power BI dashboard was built on top of the Gold layer view gold.beautyspot_sales_sls to visualize key business metrics.
+A Power BI dashboard was built on top of the Gold layer view gold.beautyspot_sales_report to visualize key business metrics.
 
 **Key Performance Indicators:**
 -  Unique Products
