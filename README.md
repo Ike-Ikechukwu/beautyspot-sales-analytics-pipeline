@@ -85,18 +85,9 @@ Two tables were created in this layer:
 
 [click to view script](scripts/silver_layer/ddl.silver.sql)
 
-Before loading data from bronze into the Silver layer, several data quality checks were performed to ensure consistency and accuracy. This checks included:
-
--  Identrifying duplicate part numbers
--  Checking for null values in text, numeric, and date columns
--  Removing unwanted spaces in string fields
--  Verifying consistent formatting across the dataset
-
-[click to view the script](tests/silver.quality_checks.sql)
-
 **Data Discrepancy Investigation**
-
-During validation, 15 part numbers from the sales dataset did not match records in the inventory dataset. After discussing the issue with the inventory officer, it was confirmed that Some products had previously shared the same part number and were later updated internally
+Before loading the data to the silver layer a data validation process was conducted to verify whether all products listed in the sales dataset exists in the inventory product dataset. 
+During this process, it was identified that 15 part numbers from the sales dataset did not match records in the inventory dataset. After discussing the issue with the inventory officer, it was confirmed that Some products had previously shared the same part number and were later updated internally
 
 The inventory officer provided complete product names for those records so they could still be categorized correctly
 
@@ -107,6 +98,15 @@ Once the data was cleaned, it was inserted into the Silver tables. Before loadin
 For matched records, product names from the inventory dataset were used. For unmatched records, the product names provided by the inventory officer were manually included.
 
 (click to view script)
+
+After loading data from bronze into the Silver layer, several data quality checks were performed to ensure consistency and accuracy. This checks included:
+
+-  Identrifying duplicate part numbers
+-  Checking for null values in text, numeric, and date columns
+-  Removing unwanted spaces in string fields
+-  Verifying consistent formatting across the dataset
+
+[click to view the script](tests/silver.quality_checks.sql)
 
 ### Gold layer
 The Gold Layer contains business ready viiews designed for analysis and reporting. This views apply business logic and prepare the data for use in SQL analysis and Power BI dashboards.
