@@ -97,7 +97,7 @@ The inventory officer provided complete product names for those records so they 
 Once the data was cleaned, it was inserted into the Silver tables. Before loading the sales data, it was enriched with product information from the inventory dataset using a LEFT JOIN on part_no.
 For matched records, product names from the inventory dataset were used. For unmatched records, the product names provided by the inventory officer were manually included.
 
-(click to view script)
+[click to view script](scripts/silver_layer/proc_load.silver.sql)
 
 After loading data from bronze into the Silver layer, several data quality checks were performed to ensure consistency and accuracy. This checks included:
 
