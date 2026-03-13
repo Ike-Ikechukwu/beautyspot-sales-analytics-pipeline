@@ -83,7 +83,7 @@ Two tables were created in this layer:
 -  silver.beautyspot_sales_sls
 -  silver.beautyspot_prd_details_inv
 
-(click to view script)
+[click to view script]()
 
 Before loading data from bronze into the Silver layer, several data quality checks were performed to ensure consistency and accuracy. This checks included:
 
