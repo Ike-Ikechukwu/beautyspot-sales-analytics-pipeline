@@ -139,7 +139,7 @@ This approach allows products to be automatically categorized during query execu
 
 A monthly summary view was created to validate the transformed dataset against the original PDF sales reports. Key metrics such as total quantity sold, revenue, cost, and profit were aggregated by month and compared with the source reports to ensure the numbers matched
 
-click to view script
+[click to view script](scripts/gold_layer/monthly_sales_validation.sql)
 
 ## Analysis
 
