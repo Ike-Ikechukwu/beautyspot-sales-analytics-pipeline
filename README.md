@@ -149,7 +149,7 @@ To avoid results being skewed by unusually high sales periods, the peak sales mo
 
 This analysis helps identify which product categories generate the most revenue and profit for the business.
 
-[click to view script](scripts/Analysis/Category_performance_analysis.sql)
+[click to view script](scripts/gold_layer/category_performance_analysis.sql)
 
 ### Budget Allocation Model
 A simple budget allocation model was developed based on category revenue contribution.
