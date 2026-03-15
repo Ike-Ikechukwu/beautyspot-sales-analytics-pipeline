@@ -152,8 +152,7 @@ This analysis helps identify which product categories generate the most revenue 
 [click to view script](scripts/gold_layer/category_performance_analysis.sql)
 
 ### Budget Allocation Model
-A simple budget allocation model was developed based on category revenue contribution.
-The idea was to distribute a marketing or purchasing budget across product categories according to their revenue performance.
+A simple budget allocation model was developed based on category revenue contribution. The 30,000,000 naira procurement budget was distributed across product categories according to thier revenue performance.
 **formula used**:
 Revenue Allocation = New Budget × Revenue Contribution
 This approach ensures that higher performing categories receive a proportionally larger share of the budget.
