@@ -157,7 +157,7 @@ A simple budget allocation model was developed based on category revenue contrib
 Revenue Allocation = New Budget × Revenue Contribution
 This approach ensures that higher performing categories receive a proportionally larger share of the budget.
 
-(click to view script).
+[click to view script].(scripts/gold_layer/budget_allocation_model.sql)
 
 ## Power BI Dashboard
 
