@@ -144,7 +144,7 @@ A monthly summary view was created to validate the transformed dataset against t
 ## Analysis
 
 ### Category Performance Analysis
-Using the "gold.beautyspot_sales_report" view, a category-level analysis was performed to evaluate the contribution of each product category. The analysis calculated key metrics such as number of products, total quantity sold, total cost, total revenue, total profit, and revenue contribution percentage.
+Using the "gold.beautyspot_sales_report" view, a category-level analysis view was created . This analysis was performed to evaluate the contribution of each product category. The analysis calculated key metrics such as number of products, total quantity sold, total cost, total revenue, total profit, and revenue contribution percentage.
 To avoid results being skewed by unusually high sales periods, the peak sales month was excluded and the analysis was conducted using the remaining four months of data. This provided a more balanced view of category performance during typical sales periods.
 
 This analysis helps identify which product categories generate the most revenue and profit for the business.
